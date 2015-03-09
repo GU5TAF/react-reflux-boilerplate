@@ -1,0 +1,23 @@
+{
+  "name": "react-reflux-boilerplate",
+  "version": "0.0.1",
+  "authors": [
+    "GU5TAF"
+  ],
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.scss": "~3.0.2+normalize.3.0.2"
+  }
+}
