@@ -1,13 +1,6 @@
 'use strict';
 
-// var $ = jQuery;
-var React  = require('react/addons');
-var Reflux = require('reflux');
+var React  = require('react');
+var Hello = require('./components/hello.jsx');
 
-var Hello = React.createClass({
-  render: function() {
-    return <div>Hello {this.props.name}</div>;
-  }
-});
-
-React.render(<Hello name="World" />, document.body);
+React.render(<Hello text="world" />, document.getElementById('app'));

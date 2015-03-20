@@ -1,8 +1,13 @@
 var webpack = require('webpack'),
-  entry = './app/scripts/app.jsx',
+  entry = [
+    'webpack-dev-server/client?http://localhost:1337',
+    'webpack/hot/only-dev-server',
+    './app/scripts/app'
+  ],
   output = {
-    path: __dirname,
-    filename: 'app.js'
+    path: __dirname + '/build/js/',
+    filename: 'app.js',
+    publicPath: '/js/'
   };
 
 module.exports = {
@@ -14,6 +19,9 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     preLoaders: [
       { test: /\.jsx?/,
@@ -24,8 +32,8 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loaders: ['react-hot', 'jsx-loader']
+        loaders: ['react-hot', 'babel'],
+        exclude: /node_modules/
       }
     ]
   },

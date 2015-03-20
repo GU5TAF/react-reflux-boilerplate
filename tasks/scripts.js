@@ -1,7 +1,8 @@
 'use strict';
 
-// TODO: Get HMR working so there's no need to reload
-module.exports = function(gulp, webpack, plugins, paths, opts) {
+var webpack = require('webpack');
+
+module.exports = function(gulp, plugins, paths, opts) {
   // Format errors returned by JsHint
   opts.webpackConfig.jshint = {
     reporter: function(errors) {
@@ -19,23 +20,14 @@ module.exports = function(gulp, webpack, plugins, paths, opts) {
       });
     }
   };
-  return function() {
-    gulp.src(opts.webpackConfig.entry)
-      .pipe(plugins.plumber({errorHandler: plugins.notify.onError({
-        title: 'Scripts Error',
-        message: '<%= error.message.charAt(0).toUpperCase() + error.message.substring(1) %>',
-        icon: __dirname + '/assets/javascript-error.png',
-        sound: 'Funk'
-      })}))
-        .pipe(plugins.webpack(opts.webpackConfig))
-        .pipe(plugins.if(opts.env === 'prod', plugins.uglify()))
-      .pipe(plugins.plumber.stop())
-      .pipe(gulp.dest(paths.scripts.dest))
-      .pipe(plugins.connect.reload())
-      .pipe(plugins.notify({
-        title: 'Scripts',
-        message: opts.env === 'prod' ? 'Concatenated scripts to <%= file.relative %>' : 'Concatenated and minified scripts to <%= file.relative %>',
-        icon: __dirname + '/assets/javascript.png'
+  return function(callback) {
+    // run webpack
+    webpack(opts.webpackConfig, function(err, stats) {
+      if(err) throw new plugins.util.PluginError("webpack", err);
+      plugins.util.log("[webpack]", stats.toString({
+          // output options
       }));
+      callback();
+    });
   };
 };
