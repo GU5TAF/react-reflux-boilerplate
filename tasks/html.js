@@ -2,7 +2,7 @@
 
 module.exports = function(gulp, plugins, paths, opts) {
   return function() {
-    gulp.src(paths.html.src)
+    var stream = gulp.src(paths.html.src)
       .pipe(plugins.plumber({errorHandler: plugins.htmlhint.reporter({
         title: 'HTML Error',
         message: '<%= error.message.charAt(0).toUpperCase() + error.message.substring(1) %>',
@@ -29,5 +29,6 @@ module.exports = function(gulp, plugins, paths, opts) {
         message: opts.env === 'prod' ? 'HTML minified and copied to ' + paths.html.dest : 'HTML copied to ' + paths.html.dest,
         icon: __dirname + '/assets/gulp.png'
       }));
+    return stream;
   };
 };

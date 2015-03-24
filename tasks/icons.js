@@ -2,7 +2,7 @@
 
 module.exports = function(gulp, plugins, paths, opts) {
   return function() {
-    gulp.src(paths.icons.src)
+    var stream = gulp.src(paths.icons.src)
       .pipe(plugins.iconfont({
         fontName: opts.iconFontName,
         normalize: true,
@@ -20,5 +20,6 @@ module.exports = function(gulp, plugins, paths, opts) {
         .pipe(gulp.dest(paths.icons.dest.scss));
       })
       .pipe(gulp.dest(paths.icons.dest.fonts));
+    return stream;
   };
 };

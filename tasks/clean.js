@@ -2,9 +2,9 @@
 
 var del = require('del');
 
-module.exports = function(gulp, plugins, paths, opts) {
+module.exports = function(gulp, plugins, dest) {
   return function(callback) {
-    var dirs = ['build'];
+    var dirs = [dest];
 
     del(dirs, function() {
       if (dirs.length < 2) {

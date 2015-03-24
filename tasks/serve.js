@@ -34,7 +34,6 @@ module.exports = function(gulp, plugins, paths, opts) {
       plugins.util.log('| Application \'' + plugins.util.colors.cyan(appName) +'\' is running at ' + plugins.util.colors.green(serverUrl) +' |');
       plugins.util.log(dashChars);
 
-      // keep the server alive or continue?
       callback();
     });
   };

@@ -2,7 +2,7 @@
 
 module.exports = function(gulp, plugins, paths, opts) {
   return function() {
-    gulp.src(paths.styles.src)
+    var stream = gulp.src(paths.styles.src)
       .pipe(plugins.plumber({errorHandler: plugins.notify.onError({
         title: 'Styles Error',
         message: '<%= error.message.charAt(0).toUpperCase() + error.message.substring(1) %>',
@@ -32,5 +32,6 @@ module.exports = function(gulp, plugins, paths, opts) {
         message: opts.env === 'prod' ? 'Compiled, autoprefixed and minified <%= file.relative %>' : 'Compiled and autoprefixed <%= file.relative %>',
         icon: __dirname + '/assets/sass.png'
       }));
+    return stream;
   };
 };

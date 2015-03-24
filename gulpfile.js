@@ -3,24 +3,26 @@
 var gulp  = require('gulp'),
   plugins = require('gulp-load-plugins')({camelize: true}),
   argv    = require('yargs').argv,
-  pkg     = require('./package.json');
+  run     = require('run-sequence'),
+  pkg     = require('./package.json'),
+  dest    = './.tmp';
 
 var paths = {
   html: {
     src: ['./app/*.html'],
-    dest: './build'
+    dest: dest
   },
   scripts: {
     src: ['./app/scripts/**/*.js', './app/scripts/**/*.jsx'],
-    dest: './build/js'
+    dest: dest + '/js'
   },
   styles: {
     src: ['./app/styles/**/*.scss'],
-    dest: './build/css'
+    dest: dest + '/css'
   },
   images: {
     src: ['./app/images/**/*.*'],
-    dest: './build/images'
+    dest: dest + '/images'
   },
   icons: {
     src: ['./app/icons/**/*.svg'],
@@ -31,11 +33,11 @@ var paths = {
   },
   fonts: {
     src: ['./app/fonts/**/*.*'],
-    dest: './build/fonts'
+    dest: dest + '/fonts'
   },
   documents: {
     src: ['./app/documents/**/*.*'],
-    dest: './build/documents'
+    dest: dest + '/documents'
   }
 };
 
@@ -44,7 +46,7 @@ var opts = {
   version: pkg.version,
   description: pkg.description,
   env: argv.env || 'dev',
-  port: 1337,
+  port: argv.port || 1337,
   webpackConfig: require('./webpack.config.js'),
   iconFontName: 'IconFont',
   autoprefixerBrowsers: [
@@ -63,8 +65,7 @@ var opts = {
   }
 };
 
-gulp.task('build', ['clean', 'scripts', 'html', 'styles', 'images', 'fonts', 'documents']);
-gulp.task('clean', require('./tasks/clean')(gulp, plugins, paths, opts));
+gulp.task('clean', require('./tasks/clean')(gulp, plugins, dest));
 gulp.task('serve', require('./tasks/serve')(gulp, plugins, paths, opts));
 gulp.task('html', require('./tasks/html')(gulp, plugins, paths, opts));
 gulp.task('icons', require('./tasks/icons')(gulp, plugins, paths, opts));
@@ -74,7 +75,12 @@ gulp.task('documents', require('./tasks/copy')(gulp, plugins, paths.documents.sr
 gulp.task('scripts', require('./tasks/scripts')(gulp, plugins, paths, opts));
 gulp.task('styles', require('./tasks/styles')(gulp, plugins, paths, opts));
 
-gulp.task('default', ['clean', 'serve', 'html', 'styles', 'images', 'fonts', 'documents'], function() {
+gulp.task('build', function(callback) {
+  run('clean', ['scripts', 'html', 'styles', 'images', 'fonts', 'documents'], callback);
+});
+
+gulp.task('default', function(callback) {
+  run('clean', ['serve', 'html', 'styles', 'images', 'fonts', 'documents'], callback);
   gulp.watch(paths.html.src, ['html']);
   gulp.watch(paths.styles.src, ['styles']);
   gulp.watch(paths.icons.src, ['icons']);
