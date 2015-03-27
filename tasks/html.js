@@ -9,6 +9,10 @@ module.exports = function(gulp, plugins, paths, opts) {
         icon: __dirname + '/assets/gulp-error.png',
         sound: 'Funk'
       })}))
+        .pipe(plugins.consolidate("lodash", {
+          version: opts.version,
+          minification: opts.env === 'prod' ? '.min' : ''
+        }))
         .pipe(plugins.htmlhint())
         .pipe(plugins.htmlhint.reporter(function(file) {
           file.htmlhint.messages.forEach(function(result) {
@@ -23,7 +27,6 @@ module.exports = function(gulp, plugins, paths, opts) {
         })))
       .pipe(plugins.plumber.stop())
       .pipe(gulp.dest(paths.html.dest))
-      .pipe(plugins.connect.reload())
       .pipe(plugins.notify({
         title: 'HTML',
         message: opts.env === 'prod' ? 'HTML minified and copied to ' + paths.html.dest : 'HTML copied to ' + paths.html.dest,

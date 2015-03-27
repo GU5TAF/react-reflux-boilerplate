@@ -66,13 +66,13 @@ var opts = {
 };
 
 gulp.task('clean', require('./tasks/clean')(gulp, plugins, dest));
-gulp.task('serve', require('./tasks/serve')(gulp, plugins, paths, opts));
+gulp.task('serve', require('./tasks/serve')(gulp, plugins, opts, dest));
 gulp.task('html', require('./tasks/html')(gulp, plugins, paths, opts));
 gulp.task('icons', require('./tasks/icons')(gulp, plugins, paths, opts));
 gulp.task('images', require('./tasks/images')(gulp, plugins, paths, opts));
 gulp.task('fonts', require('./tasks/copy')(gulp, plugins, paths.fonts.src, paths.fonts.dest));
 gulp.task('documents', require('./tasks/copy')(gulp, plugins, paths.documents.src, paths.documents.dest));
-gulp.task('scripts', require('./tasks/scripts')(gulp, plugins, paths, opts));
+gulp.task('scripts', require('./tasks/scripts')(gulp, plugins));
 gulp.task('styles', require('./tasks/styles')(gulp, plugins, paths, opts));
 
 gulp.task('build', function(callback) {

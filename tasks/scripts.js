@@ -3,7 +3,7 @@
 var webpack = require('webpack'),
   compiler = require('./compiler');
 
-module.exports = function(gulp, plugins, paths, opts) {
+module.exports = function(gulp, plugins) {
   return function(callback) {
     // run webpack
     compiler.run(function(err, stats) {

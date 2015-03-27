@@ -24,9 +24,14 @@ module.exports = function(gulp, plugins, paths, opts) {
         .pipe(plugins.autoprefixer({browsers: opts.autoprefixerBrowsers}))
         .pipe(plugins.if(opts.env === 'prod', plugins.minifyCss()))
       .pipe(plugins.if(opts.env !== 'prod', plugins.sourcemaps.write()))
+      .pipe(plugins.if(opts.env === 'prod', plugins.rename({
+        suffix: '.' + opts.version + '.min'
+      })))
+      .pipe(plugins.if(opts.env !== 'prod', plugins.rename({
+        suffix: '.' + opts.version
+      })))
       .pipe(plugins.plumber.stop())
       .pipe(gulp.dest(paths.styles.dest))
-      .pipe(plugins.connect.reload())
       .pipe(plugins.notify({
         title: 'Styles',
         message: opts.env === 'prod' ? 'Compiled, autoprefixed and minified <%= file.relative %>' : 'Compiled and autoprefixed <%= file.relative %>',

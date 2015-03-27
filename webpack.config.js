@@ -1,12 +1,13 @@
 var webpack = require('webpack'),
+  pkg = require('./package.json'),
   entry = [
     'webpack-dev-server/client?http://localhost:1337',
     'webpack/hot/only-dev-server',
     './app/scripts/app'
   ],
   output = {
-    path: __dirname + '/build/js/',
-    filename: 'app.js',
+    path: __dirname + '/.tmp/js/',
+    filename: 'app.' + pkg.version + '.js',
     publicPath: '/js/'
   };
 
@@ -36,6 +37,6 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  },
+  }
 
 };

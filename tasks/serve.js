@@ -3,10 +3,10 @@
 var WebpackDevServer = require('webpack-dev-server'),
   compiler = require('./compiler');
 
-module.exports = function(gulp, plugins, paths, opts) {
+module.exports = function(gulp, plugins, opts, dest) {
   return function(callback) {
     new WebpackDevServer(compiler, {
-      contentBase: './build',
+      contentBase: dest,
       hot: true,
       publicPath: opts.webpackConfig.output.publicPath,
       // Unfortunately quiet swallows everything even error so it can't be used.
